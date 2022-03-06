@@ -27,8 +27,8 @@ const start = () => {
 function BasicTimer () {
   const [second, setSecond] = useState(0)
   const [minute, setMinute] = useState(40)
-  const [intendedSecond, setIntendedSecond] = useState()
-  const [intendedMinute, setIntendedMinute] = useState()
+  const [intendedSecond, setIntendedSecond] = useState(0)
+  const [intendedMinute, setIntendedMinute] = useState(0)
   const [isTimerActive, setIsTimerActive] = useState(false)
 
   useEffect(() => {
@@ -59,6 +59,7 @@ function BasicTimer () {
 
   function handleSecondChange (event) {
     setIntendedSecond(event.target.value);
+
   }
 
   function handleMinuteChange (event) {
@@ -87,6 +88,11 @@ function BasicTimer () {
     setIsTimerActive(false)
   }
 
+  function timeToString (time) {
+    if (time === 0) return ""
+    else return time.toString()
+  }
+
   return(
     <div class="main-div">
       <Label
@@ -102,8 +108,11 @@ function BasicTimer () {
           name='timer'
           type='number'
           placeholder='minutes'
+          value={timeToString(intendedMinute)}
           onChange={handleMinuteChange}
           width='30%'
+          margin='1px'
+          style={{'border-radius': '5px'}}
           display='inline-block'
         />
         <Input
@@ -111,8 +120,11 @@ function BasicTimer () {
           name='timer'
           type='number'
           placeholder='seconds'
+          value={timeToString(intendedSecond)}
           onChange={handleSecondChange}
           width='30%'
+          margin='1px'
+          style={{'border-radius': '5px'}}
           display='inline-block'
         />
       </div>
