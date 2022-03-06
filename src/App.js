@@ -3,12 +3,14 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import {
   Button,
-  Box
+  Box,
+  Flex
 } from 'rebass'
 import {
   Input,
   Label
 } from '@rebass/forms'
+import { useTheme, ThemeProvider, withTheme } from '@emotion/react'
 
 import sound from '../src/zapsplat_ringtone.mp3'
 
@@ -16,6 +18,12 @@ const currentTime = {
   seconds: '00',
   minutes: '00',
   hours: '00'
+}
+
+function padZeros(number, intendedLength) {
+  const numberAsString = number.toString()
+  if (numberAsString.length >= intendedLength) return numberAsString
+  return "0".repeat(intendedLength - numberAsString.length) + numberAsString
 }
 
 function BasicTimer () {
@@ -81,41 +89,41 @@ function BasicTimer () {
   }
 
   return(
-    <div>
-      <Button 
-        variant='outline' 
-        mr={2}
-        // onClick={startTimer}
+    <div class="main-div">
+      <Label 
+        class="timer-reading"
+        display='inline-block'
+        fontSize='72px'
+        marginLeft='155px'
       >
-        {currentTime.hours}:{minute}:{second}
-      </Button>
-      {/* <Button 
-        variant='outline' 
-        mr={2}
-        onClick={setFiveMinute}
-      >
-        Set 5 minutes
-      </Button> */}
-      <Label>Set Minute</Label>
-      <Input
-        id='timer'
-        name='timer'
-        type='number'
-        placeholder='number of minutes'
-        onChange={handleMinuteChange}
-      />
-      <Label>Set Second</Label>
-      <Input
-        id='timer'
-        name='timer'
-        type='number'
-        placeholder='number of seconds'
-        onChange={handleSecondChange}
-      />
+        {padZeros(minute, 2)}:{padZeros(second, 2)}
+      </Label>
+      <div style={{'padding': '10px'}}>
+        <Input
+          id='timer'
+          name='timer'
+          type='number'
+          placeholder='minutes'
+          onChange={handleMinuteChange}
+          width='30%'
+          display='inline-block'
+        />
+        <Input
+          id='timer'
+          name='timer'
+          type='number'
+          placeholder='seconds'
+          onChange={handleSecondChange}
+          width='30%'
+          display='inline-block'
+        />
+      </div>
       <Button
         onClick={applyTime}
+        color='white'
+        backgroundColor='blue'
       >
-        Submit
+        Start
       </Button>
     </div>
   );
