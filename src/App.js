@@ -2,23 +2,14 @@ import './App.css';
 
 import React, {useState, useEffect} from 'react';
 import {
-  Button,
-  Box,
-  Flex
+  Button
 } from 'rebass'
 import {
   Input,
   Label
 } from '@rebass/forms'
-import { useTheme, ThemeProvider, withTheme } from '@emotion/react'
 
 import sound from '../src/zapsplat_ringtone.mp3'
-
-const currentTime = {
-  seconds: '00',
-  minutes: '00',
-  hours: '00'
-}
 
 function padZeros(number, intendedLength) {
   const numberAsString = number.toString()
@@ -27,12 +18,10 @@ function padZeros(number, intendedLength) {
 }
 
 function BasicTimer () {
-  // const [changeTime, setChangeTime] = useState(false)
   const [second, setSecond] = useState(0)
   const [minute, setMinute] = useState(0)
   const [intendedSecond, setIntendedSecond] = useState(0)
   const [intendedMinute, setIntendedMinute] = useState(0)
-  // const [customTime, setCustomTime] = useState(0)
 
   const start = () => {
     var audio = new Audio(sound)
@@ -49,7 +38,7 @@ function BasicTimer () {
       }, 1000)
       return () => clearInterval(intervalId)
     }
-    if (second == 0 && minute == 0) {
+    if (second === 0 && minute === 0) {
       start()
     }
     return
@@ -67,11 +56,6 @@ function BasicTimer () {
       setSecond(second-1)
     }
   }
-
-  // function setFiveMinute () {
-  //   setMinute(4)
-  //   setSecond(59)
-  // }
 
   function handleSecondChange (event) {
     setIntendedSecond(event.target.value);
