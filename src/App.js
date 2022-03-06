@@ -17,21 +17,23 @@ function padZeros(number, intendedLength) {
   return "0".repeat(intendedLength - numberAsString.length) + numberAsString
 }
 
+const start = () => {
+  var audio = new Audio(sound)
+  audio.type = "audio/mp3";
+  console.log("playing")
+  audio.play()
+}
+
 function BasicTimer () {
   const [second, setSecond] = useState(0)
-  const [minute, setMinute] = useState(0)
-  const [intendedSecond, setIntendedSecond] = useState(0)
-  const [intendedMinute, setIntendedMinute] = useState(0)
-
-  const start = () => {
-    var audio = new Audio(sound)
-    audio.type = "audio/mp3";
-    console.log("playing")
-    audio.play()
-  }
+  const [minute, setMinute] = useState(40)
+  const [intendedSecond, setIntendedSecond] = useState()
+  const [intendedMinute, setIntendedMinute] = useState()
+  const [isTimerActive, setIsTimerActive] = useState(false)
 
   useEffect(() => {
-    console.log("hit use effect")
+    if (isTimerActive === false) return
+
     if (second > 0 || minute > 0) {
       const intervalId = setInterval(() => {
         updateTime()
@@ -42,10 +44,8 @@ function BasicTimer () {
       start()
     }
     return
-  }, [second])
+  }, [second, isTimerActive])
 
-  
-  
   function updateTime () {
     // if second = 0 then minute - 1 and second to 59
     if (second === 0 && minute !== 0) {
@@ -66,16 +66,30 @@ function BasicTimer () {
   }
 
   function applyTime () {
-    console.log("apply time triggered")
-    setSecond(intendedSecond)
-    setMinute(intendedMinute)
-    console.log("apply time finished")
+    if (intendedMinute > 0) {
+      setMinute(intendedMinute)
+      setSecond(intendedSecond)
+    }
+    else if (intendedSecond > 0) setSecond(intendedSecond)
+    setIsTimerActive(true)
+    setIntendedSecond("")
+    setIntendedMinute("")
+    console.log(intendedSecond)
+  }
+
+  function stopTimer () {
+    setIsTimerActive(false)
+  }
+
+  function resetTimer () {
+    setSecond(0)
+    setMinute(40)
+    setIsTimerActive(false)
   }
 
   return(
     <div class="main-div">
-      <Label 
-        class="timer-reading"
+      <Label
         display='inline-block'
         fontSize='72px'
         marginLeft='155px'
@@ -102,13 +116,30 @@ function BasicTimer () {
           display='inline-block'
         />
       </div>
-      <Button
-        onClick={applyTime}
-        color='white'
-        backgroundColor='blue'
-      >
-        Start
-      </Button>
+        <Button
+          onClick={applyTime}
+          color='white'
+          backgroundColor='blue'
+          margin='5px'
+        >
+          Start
+        </Button>
+        <Button
+          onClick={stopTimer}
+          color='white'
+          backgroundColor='orange'
+          margin='5px'
+        >
+          Pause
+        </Button>
+        <Button
+          onClick={resetTimer}
+          color='white'
+          backgroundColor='red'
+          margin='5px'
+        >
+          Reset
+        </Button>
     </div>
   );
 }
