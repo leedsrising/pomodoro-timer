@@ -11,6 +11,9 @@ import {
 
 import sound from '../src/zapsplat_ringtone.mp3'
 
+import {writeUserSessionComplete, readUser} from '../src/firebase.js'
+
+
 function padZeros(number, intendedLength) {
   const numberAsString = number.toString()
   if (numberAsString.length >= intendedLength) return numberAsString
@@ -47,8 +50,11 @@ function BasicTimer () {
   }, [second, isTimerActive])
 
   function updateTime () {
+    if (second === 0 && minute === 0) {
+      writeUserSessionComplete("leeds")
+    }
     // if second = 0 then minute - 1 and second to 59
-    if (second === 0 && minute !== 0) {
+    else if (second === 0 && minute !== 0) {
       setSecond(59)
       setMinute(minute-1)
     }
@@ -151,6 +157,14 @@ function BasicTimer () {
           margin='5px'
         >
           Reset
+        </Button>
+        <Button
+          onClick={readUser}
+          color='white'
+          backgroundColor='red'
+          margin='5px'
+        >
+          Read data
         </Button>
     </div>
   );
