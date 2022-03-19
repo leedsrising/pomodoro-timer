@@ -3,22 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
 
-import { ThemeProvider } from '@emotion/react'
-import preset from '@rebass/preset'
-import theme from './theme'
-
-export default props =>
-  <ThemeProvider theme={preset}>
-    {props.children}
-  </ThemeProvider>
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
       <App />
-    </React.StrictMode>
-  </ThemeProvider>,
+    </BrowserRouter>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
