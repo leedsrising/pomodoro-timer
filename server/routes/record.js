@@ -1,3 +1,4 @@
+const date = require('date-and-time');
 const express = require("express");
 
 // recordRoutes is an instance of the express router.
@@ -39,11 +40,23 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 // This section will help you create a new record.
 recordRoutes.route("/record/add").post(function (req, response) {
   let db_connect = dbo.getDb();
+
+  const now = new Date();
+  const now_formatted = date.format(now, 'YYYY/MM/DD')
+
+  var same_day_times = db_connect.collection("times").count( { day: now_formatted} ).toArray()
+
+  if (same_day_times) {
+    console.log(same_day_times)
+    console.log("here")
+  }
+
   let myobj = {
     current_time: req.body.time,
   };
   db_connect.collection("times").insertOne(myobj, function (err, res) {
     if (err) throw err;
+    console.log("1 document added");
     response.json(res);
   });
 });

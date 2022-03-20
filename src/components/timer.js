@@ -19,7 +19,6 @@ function padZeros(number, intendedLength) {
 const playSound = () => {
     var audio = new Audio(sound)
     audio.type = "audio/mp3";
-    console.log("playing")
     audio.play()
 }
 
@@ -49,7 +48,6 @@ export default function Timer () {
     const [isBreak, setIsBreak] = useState(false)
   
     useEffect(() => {
-      console.log(isBreak)
       if (isTimerActive === false) return
 
       if (second === 0 && minute === 0) {
@@ -79,7 +77,6 @@ export default function Timer () {
         setMinute(minute-1 % 60)
       }
       else {
-        console.log(second)
         setSecond(second-1 % 60)
       }
     }
