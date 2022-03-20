@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+
+import date from 'date-and-time';
 import sound from '../../src/zapsplat_ringtone.mp3'
 import {
   Button
@@ -14,11 +16,28 @@ function padZeros(number, intendedLength) {
     return "0".repeat(intendedLength - numberAsString.length) + numberAsString
   }
   
-const start = () => {
+const playSound = () => {
     var audio = new Audio(sound)
     audio.type = "audio/mp3";
     console.log("playing")
     audio.play()
+}
+
+async function createTimerRecord () {
+  const now = new Date();
+  const now_formatted = { time: date.format(now, 'YYYY/MM/DD') }
+
+  await fetch("http://localhost:3001/record/add", {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify(now_formatted),
+  })
+  .catch(error => {
+      window.alert(error);
+      return;
+  });
 }
   
 export default function Timer () {
@@ -27,33 +46,41 @@ export default function Timer () {
     const [intendedSecond, setIntendedSecond] = useState(0)
     const [intendedMinute, setIntendedMinute] = useState(0)
     const [isTimerActive, setIsTimerActive] = useState(false)
+    const [isBreak, setIsBreak] = useState(false)
   
     useEffect(() => {
+      console.log(isBreak)
       if (isTimerActive === false) return
-  
-      if (second > 0 || minute > 0) {
-        const intervalId = setInterval(() => {
-          updateTime()
-        }, 1000)
-        return () => clearInterval(intervalId)
-      }
+
       if (second === 0 && minute === 0) {
-        start()
+        createTimerRecord()
+        playSound()
       }
-      return
+
+      const intervalId = setInterval(() => {
+        updateTime()
+      }, 1000)
+
+      return () => clearInterval(intervalId)
+
     }, [second, isTimerActive])
   
     function updateTime () {
-      if (second === 0 && minute === 0) {
-        console.log("leeds")
+      if (second === 1 && minute === 0) {
+        setSecond(2)
+        setMinute(0)
+        createTimerRecord()
+        setIsBreak(!isBreak)
+        
       }
       // if second = 0 then minute - 1 and second to 59
       else if (second === 0 && minute !== 0) {
         setSecond(59)
-        setMinute(minute-1)
+        setMinute(minute-1 % 60)
       }
       else {
-        setSecond(second-1)
+        console.log(second)
+        setSecond(second-1 % 60)
       }
     }
   
@@ -67,15 +94,11 @@ export default function Timer () {
     }
   
     function applyTime () {
-      if (intendedMinute > 0) {
-        setMinute(intendedMinute)
-        setSecond(intendedSecond)
-      }
-      else if (intendedSecond > 0) setSecond(intendedSecond)
+      setMinute(intendedMinute)
+      setSecond(intendedSecond)
       setIsTimerActive(true)
       setIntendedSecond("")
       setIntendedMinute("")
-      console.log(intendedSecond)
     }
   
     function stopTimer () {
@@ -95,7 +118,7 @@ export default function Timer () {
   
     return(
         
-        <div class="main-div">
+        <div class="timer-div">
             <Label
             display='inline-block'
             fontSize='72px'
@@ -113,7 +136,7 @@ export default function Timer () {
                 onChange={handleMinuteChange}
                 width='30%'
                 margin='1px'
-                style={{'border-radius': '5px'}}
+                style={{'borderRadius': '5px'}}
                 display='inline-block'
             />
             <Input
@@ -125,7 +148,7 @@ export default function Timer () {
                 onChange={handleSecondChange}
                 width='30%'
                 margin='1px'
-                style={{'border-radius': '5px'}}
+                style={{'borderRadius': '5px'}}
                 display='inline-block'
             />
             </div>

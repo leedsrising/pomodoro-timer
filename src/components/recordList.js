@@ -6,7 +6,7 @@ import {
  
 const Record = (props) => (
     <tr>
-        <td>{props.record.time}</td>
+        <td>{props.record.current_time}</td>
         <td>
             <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
             <Button
@@ -37,7 +37,6 @@ export default function RecordList () {
             }
         
             const records = await response.json();
-            console.log(records.length)
             setRecords(records);
         }
         
@@ -60,7 +59,6 @@ export default function RecordList () {
     // This method will map out the records on the table
     function recordList() {
     return records.map((record) => {
-        console.log(record)
         return (
         <Record
             record={record}
@@ -73,15 +71,10 @@ export default function RecordList () {
  
     // This following section will display the table with the records of individuals.
     return (
-        <div>
-            <h3>Record List</h3>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
-            <thead>
-                <tr>
-                <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>{recordList()}</tbody>
+        <div class="record-list">
+            <table className="table" style={{ marginTop: 20 }}>
+                <thead><b>Time</b></thead>
+                <tbody>{recordList()}</tbody>
             </table>
         </div>
     );

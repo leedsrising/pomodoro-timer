@@ -3,12 +3,22 @@
   color: black;
 }
 
+.timer-div {
+  padding-top: 250px;
+  max-width: 500px;
+  margin: auto
+}
+
+.timer-reading {
+  text-align: center;
+}
+
 /* nav */
 
 .topnav {
+  padding-top: 30px;
   width: 800px;
   margin: 0px auto;
-  padding-top: 50px;
   display: inline-block;
 }
 

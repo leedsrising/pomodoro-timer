@@ -1,15 +1,16 @@
 * {
   text-align: center;
-  padding-top: 50px
 }
 
-.main-div {
-  max-width: 500px;
-  margin: auto
+.table {
+  width: 100%
 }
 
-.timer-reading {
-  text-align: center;
+.record-list {
+  display: block;
+  width: 800px;
+  margin: auto;
+  padding-top: 250px
 }
 
 body {
