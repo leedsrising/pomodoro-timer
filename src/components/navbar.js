@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 // Here, we display our Navbar
 export default function Navbar () {
     return (
-        <div class="topnav topnav-left">
-            <Link to="/" class="homelink">Home</Link>
+        <div className="topnav topnav-left">
+            <Link to="/" className="homelink">Home</Link>
             <Link to="/records">Records</Link>
         </div>
     )

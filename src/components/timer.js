@@ -51,7 +51,6 @@ export default function Timer () {
       if (isTimerActive === false) return
 
       if (second === 0 && minute === 0) {
-        createTimerRecord()
         playSound()
       }
 
@@ -64,20 +63,30 @@ export default function Timer () {
     }, [second, isTimerActive])
   
     function updateTime () {
-      if (second === 1 && minute === 0) {
-        setSecond(2)
-        setMinute(0)
+      // if normal session ending, start break
+      if (!isBreak && second === 0 && minute === 0) {
+        setSecond(59)
+        setMinute(4)
         createTimerRecord()
-        setIsBreak(!isBreak)
+        setIsBreak(true)
         
       }
-      // if second = 0 then minute - 1 and second to 59
+      // if break session ending, start normal session
+      else if (isBreak && second === 0 && minute === 0) {
+        setSecond(0)
+        setMinute(40)
+        createTimerRecord()
+        setIsBreak(false)
+        
+      }
+      // if second = 0 but min != 0, then minute - 1 and second to 59
       else if (second === 0 && minute !== 0) {
         setSecond(59)
-        setMinute(minute-1 % 60)
+        setMinute(minute-1)
       }
-      else {
-        setSecond(second-1 % 60)
+      // otherwise, subtract second by 1
+      else { 
+        setSecond(second-1)
       }
     }
   
@@ -115,7 +124,7 @@ export default function Timer () {
   
     return(
         
-        <div class="timer-div">
+        <div className="timer-div">
             <Label
             display='inline-block'
             fontSize='72px'

@@ -44,12 +44,14 @@ recordRoutes.route("/record/add").post(function (req, response) {
   const now = new Date();
   const now_formatted = date.format(now, 'YYYY/MM/DD')
 
-  var same_day_times = db_connect.collection("times").count( { day: now_formatted} ).toArray()
+  // console.log("pre fetch")
+  // var same_day_times = db_connect.collection("times").count( { day: now_formatted} )
+  // same_day_times = same_day_times.toArray()
 
-  if (same_day_times) {
-    console.log(same_day_times)
-    console.log("here")
-  }
+  // if (same_day_times) {
+  //   console.log(same_day_times)
+  //   console.log("here")
+  // }
 
   let myobj = {
     current_time: req.body.time,

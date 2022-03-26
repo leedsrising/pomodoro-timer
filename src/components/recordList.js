@@ -71,7 +71,7 @@ export default function RecordList () {
  
     // This following section will display the table with the records of individuals.
     return (
-        <div class="record-list">
+        <div className="record-list">
             <table className="table" style={{ marginTop: 20 }}>
                 <thead><b>Time</b></thead>
                 <tbody>{recordList()}</tbody>
