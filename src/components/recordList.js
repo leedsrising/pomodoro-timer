@@ -1,30 +1,42 @@
+import '../index.css';
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
-    Button
+    Button,
+    Text,
+    Link
 } from 'rebass'
 import Table from './table.js'
  
 const Record = (props) => (
-    <div style={{'width': '500px', 'float': 'left'}}>
-        <div style={{'margin': '15px', 'display': 'inline-block'}}>
+    <li style={{'width': '500px', 'float': 'left', 'list-style-type': 'none'}}>
+        <Text
+            className="record"
+            fontWeight='bold'
+        >
             {props.record.current_time}
-        </div>
-        <div style={{'margin': '15px', 'display': 'inline-block'}}>
-            <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link>
-        </div>
-        <div style={{'margin': '15px', 'display': 'inline-block'}}>
-            <Button
-                backgroundColor='red'
-                onClick={() => {
-                    props.deleteRecord(props.record._id);
-                }}
-                margin='5px'
-            >
-                Delete
-            </Button>
-        </div>
-    </div>
+        </Text>
+        <Button
+            as='a'
+            backgroundColor='blue'
+            className="record btn btn-link"
+            href="{`/edit/${props.record._id}`}"
+            fontWeight='bold'
+        >
+            Edit
+        </Button>
+        <Button
+            className="record"
+            backgroundColor='red'
+            onClick={() => {
+                props.deleteRecord(props.record._id);
+            }}
+            variant='outline'
+            mr={2}
+            fontWeight='bold'
+        >
+            Delete
+        </Button>
+    </li>
 );
  
 export default function RecordList () {

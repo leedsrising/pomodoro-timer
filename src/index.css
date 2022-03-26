@@ -6,12 +6,19 @@
   width: 100%
 }
 
+/* record list */
+
 .record-list {
   align-content: center;
   padding-top: 50px;
   display: inline-block;
   width: 800px;
   margin: auto;
+}
+
+.record {
+  margin: 20px !important;
+  display: inline-block
 }
 
 body {
