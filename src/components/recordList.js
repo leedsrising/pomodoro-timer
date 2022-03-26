@@ -3,12 +3,17 @@ import { Link } from "react-router-dom";
 import {
     Button
 } from 'rebass'
+import Table from './table.js'
  
 const Record = (props) => (
-    <tr>
-        <td>{props.record.current_time}</td>
-        <td>
-            <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
+    <div style={{'width': '500px', 'float': 'left'}}>
+        <div style={{'margin': '15px', 'display': 'inline-block'}}>
+            {props.record.current_time}
+        </div>
+        <div style={{'margin': '15px', 'display': 'inline-block'}}>
+            <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link>
+        </div>
+        <div style={{'margin': '15px', 'display': 'inline-block'}}>
             <Button
                 backgroundColor='red'
                 onClick={() => {
@@ -18,8 +23,8 @@ const Record = (props) => (
             >
                 Delete
             </Button>
-        </td>
-    </tr>
+        </div>
+    </div>
 );
  
 export default function RecordList () {
@@ -60,22 +65,19 @@ export default function RecordList () {
     function recordList() {
     return records.map((record) => {
         return (
-        <Record
-            record={record}
-            deleteRecord={() => deleteRecord(record._id)}
-            key={record._id}
-        />
+            <Record
+                record={record}
+                deleteRecord={() => deleteRecord(record._id)}
+                key={record._id}
+            />
         );
     });
  }
- 
     // This following section will display the table with the records of individuals.
     return (
+        
         <div className="record-list">
-            <table className="table" style={{ marginTop: 20 }}>
-                <thead><b>Time</b></thead>
-                <tbody>{recordList()}</tbody>
-            </table>
+            <Table columns={3} data={recordList()} />
         </div>
     );
 }
